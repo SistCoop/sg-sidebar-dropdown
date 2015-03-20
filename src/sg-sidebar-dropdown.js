@@ -20,9 +20,9 @@
                     '</script>' +
 
                     '<a href ng-if="item.link" ui-sref="{{item.link}}" ng-include="\'menu-item-link-tpl\'"></a>' +
-                    '<a href ng-if="!item.link" sidebar-dropdown-toggle ng-include="\'menu-item-link-tpl\'"></a>' +
-                    '<ul ng-if="item.menuItems.length" sidebar-dropdown-toggled>' +
-                    '<sidebar-dropdown open-class="expanded" item="subItem" ng-repeat="subItem in item.menuItems"></sidebar-dropdown>' +
+                    '<a href ng-if="!item.link" sg-sidebar-dropdown-toggle ng-include="\'menu-item-link-tpl\'"></a>' +
+                    '<ul ng-if="item.menuItems.length" sg-sidebar-dropdown-toggled>' +
+                    '<sg-sidebar-dropdown open-class="expanded" item="subItem" ng-repeat="subItem in item.menuItems"></sg-sidebar-dropdown>' +
                     '</ul>' +
                     '</li>'
                 ,
@@ -102,5 +102,55 @@
             };
         }
     ]);
+
+    module.directive('sgSidebarDropdownToggle', function() {
+        return {
+            require: '?^sgSidebarDropdown',
+            link: function(scope, element, attrs, sidebarDropdownCtrl) {
+                if ( !sidebarDropdownCtrl ) {
+                    return;
+                }
+
+                sidebarDropdownCtrl.toggleElement = element;
+
+                var toggleDropdown = function(event) {
+                    event.preventDefault();
+
+                    if ( !element.hasClass('disabled') && !attrs.disabled ) {
+                        scope.$apply(function() {
+                            sidebarDropdownCtrl.toggle();
+                        });
+                    }
+                };
+
+                element.bind('click', toggleDropdown);
+
+                // WAI-ARIA
+                element.attr({ 'aria-haspopup': true, 'aria-expanded': false });
+                scope.$watch(sidebarDropdownCtrl.isOpen, function( isOpen ) {
+                    element.attr('aria-expanded', !!isOpen);
+                });
+
+                scope.$on('$destroy', function() {
+                    element.unbind('click', toggleDropdown);
+                });
+            }
+        };
+    });
+
+    module.directive('sgSidebarDropdownToggled', function() {
+        return {
+            require: '?^sgSidebarDropdown',
+            link: function(scope, element, attrs, sidebarDropdownCtrl) {
+
+                if ( !sidebarDropdownCtrl ) {
+                    return;
+                }
+
+                sidebarDropdownCtrl.toggledElement = element;
+
+            }
+        };
+    });
 
 })();
