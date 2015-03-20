@@ -1,7 +1,7 @@
 {
   "name": "sg-sidebar-dropdown",
   "description": "Restful factories for iso3166",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "filename": "sg-sidebar-dropdown.min.js",
   "main": "./dist/sg-sidebar-dropdown.min.js",
   "homepage": "https://github.com/SistCoopEE/ui-iso3166",
