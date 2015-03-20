@@ -39,10 +39,7 @@
                     };
 
                     this.toggle = function( open ) {
-                        if(scope.isOpen)
-                            return !!open;
-                        else
-                            return !scope.isOpen;
+                        return scope.isOpen = arguments.length ? !!open : !scope.isOpen;
                     };
 
                     // Allow other directives to watch status
@@ -107,6 +104,7 @@
         return {
             require: '?^sgSidebarDropdown',
             link: function(scope, element, attrs, sidebarDropdownCtrl) {
+
                 if ( !sidebarDropdownCtrl ) {
                     return;
                 }
