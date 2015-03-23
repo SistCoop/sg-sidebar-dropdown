@@ -1,3 +1,5 @@
+'use strict';
+
 var module = angular.module('app', ['sgSidebarDropdown']);
 
 module.controller('PruebaController', function($scope, $menuItemsApp){
